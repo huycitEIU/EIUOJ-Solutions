@@ -1,4 +1,4 @@
-package eiu.cse104.lab5;
+package eiu.cse104.lab7;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -7,32 +7,51 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
-public class EIUPURCHASE3 {
+public class EIPURCHASE {
     public static void main(String[] args) {
         FastIO io = new FastIO();
 
         double originalPrice = io.nextDouble();
-        double prepay = io.nextDouble();
         int months = io.nextInt();
-        double interestRate = io.nextDouble();
 
-        io.println(calculateMonthlyPayment(originalPrice - prepay, interestRate, months));
+        double paidAmount = io.nextDouble();
+        double monthlyPayment = io.nextDouble();
+
+        io.println(calculateInterestRate(originalPrice - paidAmount, monthlyPayment, months));
         io.close();
     }
 
     /**
-     * Tính số tiền phải trả mỗi tháng (gốc + lãi).
+     * Tính lãi suất hàng tháng bằng phương pháp Newton-Raphson
      *
-     * @param principal    tiền nợ gốc
-     * @param interestRate lãi suất hàng tháng
-     * @param months       số tháng để trả
-     * @return số tiển mỗi tháng phải trả, làm tròn xuống hàng đơn vị.
+     * @param principal      tiền nợ cần trả
+     * @param monthlyPayment tiền trả mỗi tháng
+     * @param months         số tháng trả góp
+     * @return lãi suất hàng tháng (độ chính xác 1e-6)
      */
-    static long calculateMonthlyPayment(double principal, double interestRate, int months) {
+    static double calculateInterestRate(double principal, double monthlyPayment, int months) {
+        double error = 1e-6;
+        double interestRate = 1.0; // Dự đoán lãi suất ban đầu.
 
-        double monthlyPayment = principal * interestRate * Math.pow(1 + interestRate, months) / (Math.pow(1 + interestRate, months) - 1);
+        if (monthlyPayment * months <= principal) {
+            return 0;
+        }
 
-        return (long) monthlyPayment;
+        for (int i = 0; i < 100; i++) {
+            // f(r) = m(1 - (1 + r)^(-n)) - p*r = 0
+            double f = monthlyPayment * (1 - Math.pow(1 + interestRate, -months)) - principal * interestRate;
+
+            // Đạo hàm f'(r) = m * n * (1 + r) ^ (-n - 1) - p
+            double fPrime = monthlyPayment * months * Math.pow(1 + interestRate, (-months - 1)) - principal;
+
+            double nextInterestRate = interestRate - (f / fPrime);
+
+            if (Math.abs(nextInterestRate - interestRate) <= error) {
+                return nextInterestRate;
+            }
+            interestRate = nextInterestRate;
+        }
+        return 0;
     }
 
     static class FastIO {

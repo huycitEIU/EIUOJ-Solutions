@@ -1,4 +1,4 @@
-package eiu.cse104.lab5;
+package eiu.cse104.lab7;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
-public class EIPURCHASE {
+public class EIPURCHASE1 {
     public static void main(String[] args) {
         FastIO io = new FastIO();
 
@@ -30,7 +30,7 @@ public class EIPURCHASE {
      * @return lãi suất hàng tháng (độ chính xác 1e-6)
      */
     static double calculateInterestRate(double principal, double monthlyPayment, int months) {
-        double error = 1e-6;
+        double error = 1e-3;
         double interestRate = 1.0; // Dự đoán lãi suất ban đầu.
 
         if (monthlyPayment * months <= principal) {
@@ -47,7 +47,7 @@ public class EIPURCHASE {
             double nextInterestRate = interestRate - (f / fPrime);
 
             if (Math.abs(nextInterestRate - interestRate) <= error) {
-                return nextInterestRate;
+                return Math.round(nextInterestRate * 1000.0) / 1000.0;
             }
             interestRate = nextInterestRate;
         }

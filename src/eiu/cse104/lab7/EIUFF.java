@@ -1,4 +1,4 @@
-package eiu.cse104.extra;
+package eiu.cse104.lab7;
 
 import java.util.Scanner;
 
