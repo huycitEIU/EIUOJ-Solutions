@@ -1,4 +1,4 @@
-package eiu.cse104.lab6;
+package eiu.cse104.lab9;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -7,31 +7,40 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
-public class EIBANKLOAN3 {
+public class EIUCREDIT {
+
     public static void main(String[] args) {
         FastIO io = new FastIO();
 
-        double carCost = io.nextDouble();
-        double monthlyMaxPay = io.nextDouble();
-        int months = io.nextInt();
+        int numOfDeals = io.nextInt();
+        double interestRate = io.nextDouble();
+        int expectedDay = io.nextInt();
 
-        double interestRate = io.nextDouble() / 100.0 / 12.0; // interest rate per month
-        double penaltyRate = io.nextDouble() / 100.0;
+        double[] days = new double[expectedDay + 1];
 
-        double loan = carCost;
-        double standardPay = carCost / months;
-        double prePay;
-        double interestPay;
-
-        for (int i = 1; i <= months && loan > 0.0; i++) {
-            interestPay = loan * interestRate;
-            prePay = (monthlyMaxPay - interestPay - standardPay) / (1.0 + penaltyRate);
-            loan -= (standardPay + prePay);
-
-
-            io.println(i + " " + (long) Math.round(loan > 0.0 ? loan : 0));
+        while (numOfDeals-- > 0) {
+            days[io.nextInt()] += io.nextDouble();
         }
-        io.close();
+
+        double monthlyDepthAccumulation = 0;
+        double balance = 0;
+
+        for (int day = 1; day <= expectedDay; day++) {
+            if (day > 1 && (day - 1) % 30 == 0) {
+                double interest = monthlyDepthAccumulation * interestRate / 30;
+                balance -= interest;
+                monthlyDepthAccumulation = 0;
+            }
+            if (day == expectedDay) {
+                break;
+            }
+            balance += days[day];
+
+            if (balance < 0.0) {
+                monthlyDepthAccumulation += Math.abs(balance);
+            }
+        }
+        System.out.println((Math.round(balance * 100.0) / 100.0));
     }
 
     static class FastIO {

@@ -1,4 +1,4 @@
-package eiu.cse104.lab6;
+package eiu.cse201.week1;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -7,31 +7,28 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
-public class EIBANKLOAN3 {
+public class EIUPH010 {
     public static void main(String[] args) {
         FastIO io = new FastIO();
 
-        double carCost = io.nextDouble();
-        double monthlyMaxPay = io.nextDouble();
-        int months = io.nextInt();
+        StringBuilder stringBuilder = new StringBuilder();
 
-        double interestRate = io.nextDouble() / 100.0 / 12.0; // interest rate per month
-        double penaltyRate = io.nextDouble() / 100.0;
+        int size = io.nextInt();
+        int[] count = new int[1000007];
 
-        double loan = carCost;
-        double standardPay = carCost / months;
-        double prePay;
-        double interestPay;
-
-        for (int i = 1; i <= months && loan > 0.0; i++) {
-            interestPay = loan * interestRate;
-            prePay = (monthlyMaxPay - interestPay - standardPay) / (1.0 + penaltyRate);
-            loan -= (standardPay + prePay);
-
-
-            io.println(i + " " + (long) Math.round(loan > 0.0 ? loan : 0));
+        for (int i = 0; i < size; i++) {
+            int num = io.nextInt();
+            count[num]++;
         }
-        io.close();
+
+        int result = 0;
+
+        for (int i = 0; i < count.length; i++) {
+            if (count[i] > count[result]) {
+                result = i;
+            }
+        }
+        System.out.println(result + " " + count[result]);
     }
 
     static class FastIO {

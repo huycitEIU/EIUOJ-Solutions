@@ -8,18 +8,18 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 
 public class EIPURCHASE {
-    public static void main(String[] args) {
-        FastIO io = new FastIO();
-
-        double originalPrice = io.nextDouble();
-        int months = io.nextInt();
-
-        double paidAmount = io.nextDouble();
-        double monthlyPayment = io.nextDouble();
-
-        io.println(calculateInterestRate(originalPrice - paidAmount, monthlyPayment, months));
-        io.close();
-    }
+//    public static void main(String[] args) {
+//        FastIO io = new FastIO();
+//
+//        double originalPrice = io.nextDouble();
+//        int months = io.nextInt();
+//
+//        double paidAmount = io.nextDouble();
+//        double monthlyPayment = io.nextDouble();
+//
+////        io.println(calculateInterestRate(originalPrice - paidAmount, monthlyPayment, months));
+////        io.close();
+//    }
 
     /**
      * Tính lãi suất hàng tháng bằng phương pháp Newton-Raphson
@@ -29,7 +29,7 @@ public class EIPURCHASE {
      * @param months         số tháng trả góp
      * @return lãi suất hàng tháng (độ chính xác 1e-6)
      */
-    static double calculateInterestRate(double principal, double monthlyPayment, int months) {
+    public double calculateInterestRate(double principal, double monthlyPayment, int months) {
         double error = 1e-6;
         double interestRate = 1.0; // Dự đoán lãi suất ban đầu.
 
@@ -52,6 +52,36 @@ public class EIPURCHASE {
             interestRate = nextInterestRate;
         }
         return 0;
+    }
+
+    public double calculateInterestRateBinarySearch(double principal, double monthlyPayment, int months) {
+        double error = 1e-7;
+        double interestRate = 1.0;
+
+        if (monthlyPayment * months <= principal) {
+            return 0;
+        }
+
+        double low = 0.0;
+        double high = 1.0;
+
+        while (high - low > error) {
+            double mid = low + (high - low) / 2;
+
+            double debt = calculateDebt(principal, mid, monthlyPayment, months);
+
+            if (debt > 0) {
+                high = mid;
+            } else {
+                low = mid;
+            }
+        }
+        return (high + low) / 2;
+    }
+
+    public double calculateDebt(double principal, double rate, double monthlyPayment, int months) {
+        double R = (1.0 + rate);
+        return principal * Math.pow(R, months) - monthlyPayment * (Math.pow(R, months) - 1) / (R - 1);
     }
 
     static class FastIO {

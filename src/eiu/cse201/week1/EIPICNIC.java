@@ -1,4 +1,4 @@
-package eiu.cse104.lab6;
+package eiu.cse201.week1;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -7,31 +7,41 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
-public class EIBANKLOAN3 {
+public class EIPICNIC {
     public static void main(String[] args) {
         FastIO io = new FastIO();
 
-        double carCost = io.nextDouble();
-        double monthlyMaxPay = io.nextDouble();
-        int months = io.nextInt();
+        int n = io.nextInt();
+        int[] groups = new int[5];
 
-        double interestRate = io.nextDouble() / 100.0 / 12.0; // interest rate per month
-        double penaltyRate = io.nextDouble() / 100.0;
-
-        double loan = carCost;
-        double standardPay = carCost / months;
-        double prePay;
-        double interestPay;
-
-        for (int i = 1; i <= months && loan > 0.0; i++) {
-            interestPay = loan * interestRate;
-            prePay = (monthlyMaxPay - interestPay - standardPay) / (1.0 + penaltyRate);
-            loan -= (standardPay + prePay);
-
-
-            io.println(i + " " + (long) Math.round(loan > 0.0 ? loan : 0));
+        for (int i = 0; i < n; i++) {
+            groups[io.nextInt()]++;
         }
-        io.close();
+
+        int cars = 0;
+
+        // Group 4
+        cars += groups[4];
+
+        // Group 3 + 1
+        cars += groups[3];
+        groups[1] = Math.max(0, groups[1] - groups[3]);
+
+        // Group 2 + 2
+        cars += groups[2] / 2;
+
+        // Group 2 left
+        if (groups[2] % 2 != 0) {
+            cars++;
+            groups[1] = Math.max(0, groups[1] - 2);
+        }
+
+        // Group 1
+        if (groups[1] > 0) {
+            cars += (groups[1] + 3) / 4;
+        }
+
+        System.out.println(cars);
     }
 
     static class FastIO {

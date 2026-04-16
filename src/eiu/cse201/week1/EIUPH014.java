@@ -1,4 +1,4 @@
-package eiu.cse104.lab6;
+package eiu.cse201.week1;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -7,31 +7,50 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
-public class EIBANKLOAN3 {
+public class EIUPH014 {
+
+    public static FastIO io = new FastIO();
+
     public static void main(String[] args) {
-        FastIO io = new FastIO();
-
-        double carCost = io.nextDouble();
-        double monthlyMaxPay = io.nextDouble();
-        int months = io.nextInt();
-
-        double interestRate = io.nextDouble() / 100.0 / 12.0; // interest rate per month
-        double penaltyRate = io.nextDouble() / 100.0;
-
-        double loan = carCost;
-        double standardPay = carCost / months;
-        double prePay;
-        double interestPay;
-
-        for (int i = 1; i <= months && loan > 0.0; i++) {
-            interestPay = loan * interestRate;
-            prePay = (monthlyMaxPay - interestPay - standardPay) / (1.0 + penaltyRate);
-            loan -= (standardPay + prePay);
-
-
-            io.println(i + " " + (long) Math.round(loan > 0.0 ? loan : 0));
+        int n = io.nextInt();
+        int[] arr;
+        while (n > 0) {
+            arr = input(n);
+            System.out.println(count(arr));
+            n = io.nextInt();
         }
-        io.close();
+    }
+
+    public static int count(int[] arr) {
+        int times = 0;
+        while (times <= 1000) {
+            if (check(arr)) {
+                return times;
+            }
+            int[] clone = arr.clone();
+            times++;
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = Math.abs(clone[i] - clone[(i + 1) % clone.length]);
+            }
+
+        }
+        return -1;
+    }
+
+    public static boolean check(int[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] != arr[i - 1]) return false;
+        }
+        return true;
+    }
+
+    public static int[] input(int n) {
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = io.nextInt();
+        }
+        return arr;
     }
 
     static class FastIO {

@@ -1,4 +1,4 @@
-package eiu.cse104.lab6;
+package eiu.cse201.week1;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -7,31 +7,37 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
-public class EIBANKLOAN3 {
+public class EIUONCE {
     public static void main(String[] args) {
         FastIO io = new FastIO();
 
-        double carCost = io.nextDouble();
-        double monthlyMaxPay = io.nextDouble();
-        int months = io.nextInt();
+        int T = io.nextInt();
 
-        double interestRate = io.nextDouble() / 100.0 / 12.0; // interest rate per month
-        double penaltyRate = io.nextDouble() / 100.0;
+        while (T-- > 0) {
+            int n = io.nextInt();
+            long[] array = new long[n];
 
-        double loan = carCost;
-        double standardPay = carCost / months;
-        double prePay;
-        double interestPay;
+            for (int i = 0; i < n; i++) {
+                array[i] = io.nextLong();
+            }
 
-        for (int i = 1; i <= months && loan > 0.0; i++) {
-            interestPay = loan * interestRate;
-            prePay = (monthlyMaxPay - interestPay - standardPay) / (1.0 + penaltyRate);
-            loan -= (standardPay + prePay);
+            Arrays.sort(array);
 
+            StringBuilder sb = new StringBuilder();
 
-            io.println(i + " " + (long) Math.round(loan > 0.0 ? loan : 0));
+            if (n > 1 && array[0] != array[1] || n == 1) {
+                sb.append(array[0]).append(" ");
+            }
+            for (int i = 1; i < n; i++) {
+                if (i == n - 1 && array[i] != array[i - 1]) {
+                    sb.append(array[i]);
+                } else if (array[i] != array[i - 1] && array[i] != array[i + 1]) {
+                    sb.append(array[i]);
+                }
+                sb.append(" ");
+            }
+            System.out.println(sb.toString());
         }
-        io.close();
     }
 
     static class FastIO {
