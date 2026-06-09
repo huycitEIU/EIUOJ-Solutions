@@ -29,7 +29,7 @@ public class EIBANKLOAN3 {
             loan -= (standardPay + prePay);
 
 
-            io.println(i + " " + (long) Math.round(loan > 0.0 ? loan : 0));
+            io.println(i + " " + Math.round(loan > 0.0 ? loan : 0));
         }
         io.close();
     }
@@ -38,8 +38,8 @@ public class EIBANKLOAN3 {
         // --- OUTPUT ---
         private final PrintWriter out = new PrintWriter(new BufferedOutputStream(System.out));
         // --- INPUT ---
-        private InputStream is = System.in;
-        private byte[] inbuf = new byte[1 << 24]; // 16MB Input Buffer
+        private final InputStream is = System.in;
+        private final byte[] inbuf = new byte[1 << 24]; // 16MB Input Buffer
         private int lenbuf = 0, ptrbuf = 0;
 
         private int readByte() {

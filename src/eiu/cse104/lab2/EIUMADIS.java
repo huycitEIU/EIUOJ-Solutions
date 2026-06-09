@@ -3,7 +3,7 @@ package eiu.cse104.lab2;
 import java.util.Scanner;
 
 public class EIUMADIS {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
 

@@ -35,6 +35,6 @@ public class EIPAIR {
             sb.append(totalWays).append("\n");
         }
 
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 }

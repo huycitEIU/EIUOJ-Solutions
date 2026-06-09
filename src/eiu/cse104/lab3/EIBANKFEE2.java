@@ -3,7 +3,7 @@ package eiu.cse104.lab3;
 import java.util.Scanner;
 
 public class EIBANKFEE2 {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         int amountAccounts = scanner.nextInt();

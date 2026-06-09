@@ -16,6 +16,6 @@ public class EIVINFASTBATERY {
         double rentCost = (carCost - remainValue) * Math.pow(1.0 + bankRate, months) * ratio
                 + remainValue * bankRate;
 
-        System.out.println((long) Math.round(rentCost));
+        System.out.println(Math.round(rentCost));
     }
 }

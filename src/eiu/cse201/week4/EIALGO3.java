@@ -103,8 +103,10 @@ public class EIALGO3 {
 
         long maximum = sum;
         while (end < arr.length) {
-            sum -= arr[start++];
-            sum += arr[end++];
+            sum -= arr[start];
+            start++;
+            sum += arr[end];
+            end++;
             if (maximum < sum) {
                 maximum = sum;
             }

@@ -35,8 +35,8 @@ public class EIUPH010 {
         // --- OUTPUT ---
         private final PrintWriter out = new PrintWriter(new BufferedOutputStream(System.out));
         // --- INPUT ---
-        private InputStream is = System.in;
-        private byte[] inbuf = new byte[1 << 24]; // 16MB Input Buffer
+        private final InputStream is = System.in;
+        private final byte[] inbuf = new byte[1 << 24]; // 16MB Input Buffer
         private int lenbuf = 0, ptrbuf = 0;
 
         private int readByte() {

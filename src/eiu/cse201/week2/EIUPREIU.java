@@ -51,7 +51,7 @@ public class EIUPREIU {
         sb.append(generateText(UNDERSCORE, n));
         sb.append("|");
 
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 
     static StringBuilder generateText(String symbol, int nums) {
